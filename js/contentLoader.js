@@ -27,57 +27,57 @@ $(document).ready(function () {
  * Loads the specified page content into the #content div.
  * @param {string} page - The name of the page to load (e.g., 'student').
  */
-function loadContent(page) {
-  content.animate({ opacity: 0 }, 'fast', function () {
-    content.load(`./content/${page}.html`, function (response, status, xhr) {
-      if (status == "error") {
-        content.html(`<p>Sorry, but there was an error loading the page: ${xhr.status} ${xhr.statusText}</p>`);
-      }
+async function loadContent(page) {
+  const filePath = `./content/${page}.html`;
+  try {
+    await content.animate({ opacity: 0 }, 'fast').promise();
+    const response = await $.get(filePath);
+    content.html(response);
 
-      if (page === 'student') {
-        $('#search-student-button').on('click', function () {
-          loadStudentMenu();
-        });
-      }
-      content.animate({ opacity: 1 }, 'fast');
-    });
-  });
+    if (page === 'student') {
+      $('#search-student-button').on('click', loadStudentMenu);
+    }
+  } catch (error) {
+    handleLoadError(content, error, filePath);
+  } finally {
+    content.animate({ opacity: 1 }, 'fast');
+  }
 }
 
 /**
  * Loads the student menu content into the #content div.
  */
-function loadStudentMenu() {
-  content.animate({ opacity: 0 }, 'fast', function () {
-    content.load('./content/student/student-menu.html', function (response, status, xhr) {
-      if (status == "error") {
-        content.html(`<p>Sorry, but there was an error loading the page: ${xhr.status} ${xhr.statusText}</p>`);
-      } else {
-        // Add click listener for the student detail card after the menu is loaded
-        $('#student-detail-card').on('click', function () {
-          loadStudentDetail();
-        });
-      }
-      content.animate({ opacity: 1 }, 'fast');
-    });
-  });
+async function loadStudentMenu() {
+  const filePath = './content/student/student-menu.html';
+  try {
+    await content.animate({ opacity: 0 }, 'fast').promise();
+    const response = await $.get(filePath);
+    content.html(response);
+
+    $('#student-detail-btn').on('click', loadStudentDetail);
+  } catch (error) {
+    handleLoadError(content, error, filePath);
+  } finally {
+    content.animate({ opacity: 1 }, 'fast');
+  }
 }
 
 /**
  * Loads the student detail content into the #content div.
  */
-function loadStudentDetail() {
-  content.animate({ opacity: 0 }, 'fast', function () {
-    content.load('./content/student/student-detail.html', function (response, status, xhr) {
-      if (status == "error") {
-        content.html(`<p>Sorry, but there was an error loading the page: ${xhr.status} ${xhr.statusText}</p>`);
-      } else {
-        // Load the chart script after the content is loaded
-        $.getScript('./js/student-detail.js');
-      }
-      content.animate({ opacity: 1 }, 'fast');
-    });
-  });
+async function loadStudentDetail() {
+  const detailPath = './content/student/student-detail.html';
+  const scriptPath = './js/student-detail.js';
+  try {
+    await content.animate({ opacity: 0 }, 'fast').promise();
+    const response = await $.get(detailPath);
+    content.html(response);
+    await $.getScript(scriptPath);
+  } catch (error) {
+    handleLoadError(content, error, 'student detail page');
+  } finally {
+    content.animate({ opacity: 1 }, 'fast');
+  }
 }
 
 /**

@@ -4,7 +4,7 @@ const brainButton = $('#brainButton');
 const signOutLink = $('#sign-out-link');
 
 // Load initial content and set up listeners when the DOM is ready
-$(document).ready(function () {
+$(() => {
   brainButton.on('click', function (e) {
     e.preventDefault();
     toggleSidebar();
