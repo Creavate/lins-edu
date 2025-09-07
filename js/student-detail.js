@@ -1,4 +1,6 @@
 $(() => {
+  const chartInstances = {};
+
   /**
    * Creates and configures a new Chart.js instance on a specific canvas.
    * @param {string} canvasId - The ID of the canvas element where the chart will be rendered.
@@ -7,8 +9,13 @@ $(() => {
    * @param {object[]} datasets - The datasets to be displayed in the chart.
    */
   function createChart(canvasId, title, labels, datasets) {
+    // If a chart instance already exists for this canvas, destroy it before creating a new one.
+    if (chartInstances[canvasId]) {
+      chartInstances[canvasId].destroy();
+    }
+
     const ctx = $('#' + canvasId)[0].getContext('2d');
-    new Chart(ctx, {
+    chartInstances[canvasId] = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
