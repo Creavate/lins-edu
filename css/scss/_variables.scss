@@ -1,0 +1,29 @@
+/* Fonts */
+$font-family: "Inter", sans-serif;
+
+/* Colors */
+$primary-color: #0d6efd;
+$white: #fff;
+$black: #000;
+$light-gray: #e9ecef;
+$border-color: #dee2e6;
+$label-green: #00AB0E;
+$label-red: #FF0000;
+
+/* Body */
+$body-bg: $white;
+
+/* Sidebar */
+$sidebar-width: 90px;
+$sidebar-width-expanded: 200px;
+$sidebar-bg: $white;
+$sidebar-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+/* Cards */
+$card-bg: rgba(217, 217, 217, 0.31);
+$card-border-radius: 20px;
+$card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+/* Info Cards */
+$info-card-border: 1px solid $border-color;
+$info-card-border-radius: 10px;
