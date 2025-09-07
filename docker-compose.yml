@@ -3,6 +3,21 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "8080:80"
+      - "8585:80"
     volumes:
-      - .:/usr/share/nginx/html
+      - .:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    networks: [internal]
+    
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token eyJhIjoiNTkwYjQ2YTRhMGM5OWQ2ZjA1ZWQ5NzM1ODAyNTRjY2YiLCJ0IjoiMWUwZTcyNTEtNWVhNC00YmJhLTgxNzctZTFjNTEwYjc5Y2JkIiwicyI6IlpXSXdZVEU0TWpBdE56bGlOUzAwTUdFMkxXRTRNamt0TnpSa01XRXdPREptWkdSayJ9
+    depends_on: 
+      - web
+    networks: [internal]
+
+networks:
+  internal:
+    driver: bridge
